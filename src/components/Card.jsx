@@ -1,4 +1,4 @@
-
+import { Link } from "react-router"
 
 
 export default function Card({ movie }) {
@@ -11,7 +11,7 @@ export default function Card({ movie }) {
                 <div className="py-3 px-2">
                     <h1>{movie.title}</h1>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-primary">More info</button>
+                        <Link to={`/${movie.id}`} className="btn btn-primary">More info</Link>
                     </div>
                 </div>
             </div>
