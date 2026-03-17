@@ -7,12 +7,12 @@ export default function MoviesList() {
     useEffect(fetchMovies, []);
 
     function fetchMovies() {
-        axios.get(`http://localhost:3000`)
+        axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`)
             .then((res) => {
                 setMovies(res.data.results);
                 console.log(res.data.results);
             })
-            .catch((err) => { console.log(err); });
+            .catch((err) => { console.log(err.message); });
     };
     if (movies.length > 0) return (<>
         <div className="row row-cols-3 g-3">
