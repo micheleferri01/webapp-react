@@ -6,7 +6,7 @@
 
 .background-color {
     background-color: darkslategrey;
-    min-height: calc(100vh - 67px);
+    min-height: 100vh;
 }
 
 .film-poster {
@@ -23,4 +23,12 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+}
+
+.review-bubble{
+    border-radius: 25px;
+}
+
+.star-color{
+    color: yellow;
 }

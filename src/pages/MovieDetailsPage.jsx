@@ -37,7 +37,7 @@ export default function MoviedetailsPage() {
                 </ul>
             </div>
         </section>}
-        <section>
+        <section className="pb-4">
             <h1 className="text-white">Reviews</h1>
             <ul className="list-unstyled">
                 {reviews.map(review => (
