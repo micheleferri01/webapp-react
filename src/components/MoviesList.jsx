@@ -18,9 +18,7 @@ export default function MoviesList() {
         <div className="row row-cols-3 g-3">
             {
                 movies.map((movie) => (
-                    <>
-                        <Card movie={movie} key={movie.id} />
-                    </>
+                    <Card movie={movie} key={movie.id} />
                 ))
             }
         </div>
