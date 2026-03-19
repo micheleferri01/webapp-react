@@ -2,15 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"
 import ReviewsCard from "../components/reviews/reviewsCard";
+import ReviewForm from "../components/reviews/ReviewForm";
 
 export default function MoviedetailsPage() {
     const { id } = useParams();
     const [movie, setMovie] = useState();
     const [reviews, setReviews] = useState([]);
-    useEffect(() => {fetchMovie()}, []);
+    useEffect(() => { fetchMovie(id) }, []);
 
-    function fetchMovie() {
-        axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/${id}`)
+    function fetchMovie(movie_id) {
+        axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/${movie_id}`)
             .then((res) => {
                 const film = res.data.results[0];
                 setMovie(film);
@@ -22,7 +23,7 @@ export default function MoviedetailsPage() {
     };
     return <>
 
-    {!movie && <h1 className="text-white text-align-center">Loading...</h1>}
+        {!movie && <h1 className="text-white text-align-center">Loading...</h1>}
         {movie && <section className="py-4 text-white">
             <h1 className="pb-3">{movie.title}</h1>
             <div className="d-flex gap-4">
@@ -46,6 +47,9 @@ export default function MoviedetailsPage() {
                     </li>
                 ))}
             </ul>
+            <div className="d-flex justify-content-center">
+                <ReviewForm movie_id={id} getMovie={fetchMovie}/>
+            </div>
         </section>
     </>
 }
