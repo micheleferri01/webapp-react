@@ -23,7 +23,7 @@ export default function ReviewForm({ movie_id, getMovie }) {
     };
 
     const handleFormSubmit = (e) => {
-        e.preventDeafault();
+        e.preventDefault();
         storeReview();
         setFormData(formInitialData);
         getMovie(movie_id);
