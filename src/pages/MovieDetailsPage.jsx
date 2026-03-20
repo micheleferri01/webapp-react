@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router"
 import ReviewsCard from "../components/reviews/reviewsCard";
 import ReviewForm from "../components/reviews/ReviewForm";
+import { useLoading } from "../contexts/loading";
+import Loader from "../components/Loader";
 
 export default function MoviedetailsPage() {
     const { id } = useParams();
@@ -10,9 +12,12 @@ export default function MoviedetailsPage() {
     const [reviews, setReviews] = useState([]);
     useEffect(() => { fetchMovie(id) }, []);
 
+    const {setLoading, isLoading} = useLoading();
+
     function fetchMovie(movie_id) {
         axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/${movie_id}`)
             .then((res) => {
+                setLoading(true);
                 const film = res.data.results[0];
                 setMovie(film);
                 const movieReviews = res.data.reviews;
@@ -20,11 +25,9 @@ export default function MoviedetailsPage() {
                 console.log(movieReviews);
             })
             .catch((err) => { console.log(err.message) })
+            .finally(() => {setLoading(false)});
     };
-    return <>
-
-        {!movie && <h1 className="text-white text-align-center">Loading...</h1>}
-        {movie && <section className="py-4 text-white">
+    return isLoading? <Loader/> : <> <section className="py-4 text-white">
             <h1 className="pb-3">{movie.title}</h1>
             <div className="d-flex gap-4">
                 <div>
@@ -37,7 +40,7 @@ export default function MoviedetailsPage() {
                     <li><strong>Description:</strong> {movie.abstract}</li>
                 </ul>
             </div>
-        </section>}
+        </section>
         <section className="pb-4">
             <h1 className="text-white">Reviews</h1>
             <ul className="list-unstyled">
@@ -50,6 +53,5 @@ export default function MoviedetailsPage() {
             <div className="d-flex justify-content-center">
                 <ReviewForm movie_id={id} getMovie={fetchMovie}/>
             </div>
-        </section>
-    </>
+        </section></>
 }
