@@ -24,7 +24,7 @@ export default function MoviedetailsPage() {
                 setMovie(film);
                 const movieReviews = res.data.reviews;
                 setReviews(movieReviews);
-                console.log(movieReviews);
+                // console.log(movieReviews);
             })
             .catch((err) => { console.log(err.message) })
             .finally(() => {setLoading(false)});
