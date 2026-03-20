@@ -11,6 +11,8 @@ export default function ReviewForm({ movie_id, getMovie }) {
 
     const [formData, setFormData] = useState(formInitialData);
 
+    const [errors, setErrors] = useState({});
+
     const handleInputChanges = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -18,36 +20,50 @@ export default function ReviewForm({ movie_id, getMovie }) {
 
     const storeReview = () => {
         axios.post(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/${movie_id}/reviews`, formData)
-            .then((res) => {console.log(res.data)})
-            .catch((err) => {console.log(err.message)});
+            .then((res) => { console.log(res.data) })
+            .catch((err) => { console.log(err.message) });
     };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        const newErrors = {};
+        if (!formData.name.trim()) newErrors.name = "Il nome e' obbligatorio";
+        if (!formData.vote || formData.vote < 1 || formData.vote > 5) newErrors.vote = "Inserisci un voto tra 1 e 5";
+        if (!formData.text.trim()) newErrors.text = "Il testo e' obbligatorio";
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
         storeReview();
         setFormData(formInitialData);
         getMovie(movie_id);
     };
+
     return (
         <section className="bg-white rounded py-4 px-3 w-50">
             <h1>Add review</h1>
-            <form onSubmit={handleFormSubmit} className="d-flex flex-column gap-3">
-                <div>
-                    <label htmlFor="name" className="form-label">Username</label>
-                    <input value={formData.name} onChange={handleInputChanges} type="text" name="name" id="name" className="form-control" />
-                </div>
-                <div>
-                    <label htmlFor="vote" className="form-label">Vote</label>
-                    <input value={formData.vote} onChange={handleInputChanges} type="number" name="vote" min={0} max={5} id="vote" className="form-control" />
-                </div>
-                <div>
-                    <label htmlFor="text" className="form-label">Text</label>
-                    <textarea value={formData.text} onChange={handleInputChanges} id="text" name="text" className="form-control"></ textarea>
-                </div>
-                <div className="d-flex justify-content-end">
-                    <button className="btn btn-success">Post</button>
-                </div>
-            </form>
+            {errors.name && <p className="alert alert-danger">{errors.name}</p>}
+            {errors.vote && <p className="alert alert-danger">{errors.vote}</p>}
+            {errors.text && <p className="alert alert-danger">{errors.text}</p>}
+                <form onSubmit={handleFormSubmit} className="d-flex flex-column gap-3">
+                    <div>
+                        <label htmlFor="name" className="form-label">Username</label>
+                        <input value={formData.name} onChange={handleInputChanges} type="text" name="name" id="name" className="form-control" />
+                    </div>
+                    <div>
+                        <label htmlFor="vote" className="form-label">Vote</label>
+                        <input value={formData.vote} onChange={handleInputChanges} type="number" name="vote" id="vote" className="form-control"/>
+                    </div>
+                    <div>
+                        <label htmlFor="text" className="form-label">Text</label>
+                        <textarea value={formData.text} onChange={handleInputChanges} id="text" name="text" className="form-control"></ textarea>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <button className="btn btn-success">Post</button>
+                    </div>
+                </form>
         </section>
     )
 }
