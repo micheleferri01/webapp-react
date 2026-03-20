@@ -21,7 +21,7 @@ export default function MoviesList() {
             .finally(() => {setLoading(false);});
     };
 
-    return isLoading? <Loader /> : <div className="row row-cols-3 g-3">
+    return isLoading? <Loader /> : <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {
                 movies.map((movie) => (
                     <Card movie={movie} key={movie.id} />
