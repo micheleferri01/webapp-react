@@ -9,11 +9,12 @@ export default function MoviesList() {
     useEffect(fetchMovies, []);
 
     const {setLoading, isLoading} = useLoading();
-
+    
+    setLoading(true);
+    
     function fetchMovies() {
         axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`)
             .then((res) => {
-                setLoading(true);
                 setMovies(res.data.results);
                 console.log(res.data.results);
             })

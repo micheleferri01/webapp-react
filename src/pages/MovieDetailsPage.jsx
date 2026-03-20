@@ -14,11 +14,12 @@ export default function MoviedetailsPage() {
     useEffect(() => { fetchMovie(id) }, []);
 
     const {setLoading, isLoading} = useLoading();
-
+    
+    setLoading(true);
+    
     function fetchMovie(movie_id) {
         axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}/${movie_id}`)
             .then((res) => {
-                setLoading(true);
                 const film = res.data.results[0];
                 setMovie(film);
                 const movieReviews = res.data.reviews;
