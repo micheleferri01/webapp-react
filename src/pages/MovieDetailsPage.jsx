@@ -5,6 +5,7 @@ import ReviewsCard from "../components/reviews/reviewsCard";
 import ReviewForm from "../components/reviews/ReviewForm";
 import { useLoading } from "../contexts/loading";
 import Loader from "../components/Loader";
+import Rating from "../components/Rating";
 
 export default function MoviedetailsPage() {
     const { id } = useParams();
@@ -27,9 +28,9 @@ export default function MoviedetailsPage() {
             .catch((err) => { console.log(err.message) })
             .finally(() => {setLoading(false)});
     };
-    return isLoading? <Loader/> : <> <section className="py-4 text-white">
+    return isLoading || !movie ? <Loader/> : <> <section className="py-4 text-white">
             <h1 className="pb-3">{movie.title}</h1>
-            <div className="d-flex gap-4">
+            <div className="d-flex flex-column flex-md-row gap-4">
                 <div>
                     <img src={movie.image} alt={movie.title} className="film-poster" />
                 </div>
@@ -38,6 +39,7 @@ export default function MoviedetailsPage() {
                     <li><strong>Genre:</strong> {movie.genre}</li>
                     <li><strong>Year of release:</strong> {movie.release_year}</li>
                     <li><strong>Description:</strong> {movie.abstract}</li>
+                    <li><strong>Rating:</strong> <Rating vote={movie.rating}/></li>
                 </ul>
             </div>
         </section>
