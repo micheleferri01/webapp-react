@@ -10,9 +10,9 @@ export default function MoviesList() {
 
     const {setLoading, isLoading} = useLoading();
     
-    setLoading(true);
     
     function fetchMovies() {
+        setLoading(true);
         axios.get(`${import.meta.env.VITE_API_URL}:${import.meta.env.VITE_API_PORT}`)
             .then((res) => {
                 setMovies(res.data.results);
