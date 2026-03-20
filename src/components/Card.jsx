@@ -1,4 +1,5 @@
 import { Link } from "react-router"
+import Rating from "./Rating"
 
 
 export default function Card({ movie }) {
@@ -10,7 +11,10 @@ export default function Card({ movie }) {
                 </div>
                 <div className="py-3 px-2 text-white">
                     <h1>{movie.title}</h1>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <div className="fs-4">
+                            <Rating vote={movie.rating}/>
+                        </div>
                         <Link to={`/${movie.id}`} className="btn btn-primary">More info</Link>
                     </div>
                 </div>
